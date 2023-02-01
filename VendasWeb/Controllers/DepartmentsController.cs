@@ -1,18 +1,43 @@
-﻿using Domain.Models;
+﻿using Domain.Interfaces.Application.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VendasWeb.Controllers
 {
     public class DepartmentsController : Controller
     {
+        private readonly IDepartmentService _departmentsService;
+
+        public DepartmentsController(IDepartmentService departmentsService)
+        {
+            _departmentsService = departmentsService;
+        }
+
         public IActionResult Index()
         {
-            List<Department> list = new List<Department>();
+            var findAll = _departmentsService.FindAll();
+            return View(findAll);
+        }
 
-            list.Add(new Department { Id = 1, Name = "Eletronics" });
-            list.Add(new Department { Id = 2, Name = "Fashion" });
+        public IActionResult Delete(int id)
+        {
+            _departmentsService.Delete(id);
 
-            return View(list);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Department department)
+        {
+            _departmentsService.Create(department);
+
+            return RedirectToAction("Index");
         }
     }
 }

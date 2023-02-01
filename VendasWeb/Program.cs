@@ -1,3 +1,4 @@
+using Application.Services;
 using Domain.Interfaces.Application.Services;
 using Domain.Interfaces.Infra.Repositories;
 using Infra.Repositories;
@@ -18,7 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-builder.Services.AddScoped<IDepartmentService, IDepartmentService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
 var app = builder.Build();
 

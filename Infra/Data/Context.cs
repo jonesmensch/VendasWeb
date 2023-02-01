@@ -11,5 +11,7 @@ namespace VendasWeb.Data
         }
 
         public DbSet<Department> departments { get; set; }
+        public DbSet<SalesRecord> salesRecords { get; set; }
+        public DbSet<Seller> sellers { get; set; }
     }
 }

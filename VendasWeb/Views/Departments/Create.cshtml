@@ -1,0 +1,22 @@
+﻿@model Domain.Models.Department
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="text-center">
+    <h1 class="display-10">Create a new department</h1>
+</div>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Department name</label>
+        <input type="text" asp-for="Name" class="form-control" id="exampleFormControlInput1" placeholder="Department name">
+    </div>
+    <div>
+        <hr />
+        <input class="btn btn-primary" type="submit" value="Confirm">
+        <a type="button" asp-action="Index" class="btn btn-success">Voltar</a>
+    </div>
+</form>
+
