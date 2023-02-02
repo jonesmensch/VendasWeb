@@ -23,6 +23,11 @@ namespace Application.Services
             return _departmentRepository.Delete(id);
         }
 
+        public Department Update(Department department)
+        {
+            return _departmentRepository.Update(department);
+        }
+
         public List<Department> FindAll()
         {
             return _departmentRepository.FindAll();

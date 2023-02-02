@@ -12,6 +12,7 @@ namespace Domain.Interfaces.Application.Services
     {
         public List<Department> FindAll();
         public Department Create(Department department);
+        public Department Update(Department department);
         public bool Delete(int id);
     }
 }

@@ -22,6 +22,7 @@ namespace Infra.Repositories
         {
             return _context.departments.ToList();
         }
+
         public Department GetById(int id)
         {
             return _context.departments.FirstOrDefault(x => x.Id == id);
@@ -43,6 +44,21 @@ namespace Infra.Repositories
             _context.SaveChanges();
 
             return department;
+        }
+
+        public Department Update(Department department)
+        {
+            var edit = GetById(department.Id);
+
+            if(edit == null)
+                throw new System.Exception("There was an error while trying to update!");
+
+            edit.Name = department.Name;
+
+            _context.departments.Update(edit);
+            _context.SaveChanges();
+
+            return edit;
         }
 
     }
