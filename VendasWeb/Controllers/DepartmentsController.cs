@@ -39,5 +39,10 @@ namespace VendasWeb.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult Edit(Department department)
+        {
+            return View();
+        }
     }
 }
