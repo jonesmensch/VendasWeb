@@ -1,10 +1,5 @@
 ﻿using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VendasWeb.Data;
 
 namespace Infra.Repositories
@@ -20,7 +15,7 @@ namespace Infra.Repositories
 
         public List<Department> FindAll()
         {
-            return _context.departments.ToList();
+            return _context.departments.OrderBy(x => x.Name).ToList();
         }
 
         public Department GetById(int id)
