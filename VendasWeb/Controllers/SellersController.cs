@@ -29,11 +29,32 @@ namespace VendasWeb.Controllers
             return View(sellerForm);
         }
 
+        public IActionResult Edit(Seller seller)
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
             _sellerService.Create(seller);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Seller seller)
+        {
+            _sellerService.Update(seller);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Delete(id);
 
             return RedirectToAction("Index");
         }

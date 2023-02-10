@@ -18,9 +18,19 @@ namespace Application.Services
             return _sellerRepository.Create(seller);
         }
 
+        public bool Delete(int id)
+        {
+            return _sellerRepository.Delete(id);
+        }
+
         public List<Seller> FindAll()
         {
             return _sellerRepository.FindAll();
+        }
+
+        public Seller Update(Seller seller)
+        {
+            return _sellerRepository.Update(seller);
         }
     }
 }

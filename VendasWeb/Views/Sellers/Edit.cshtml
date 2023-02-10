@@ -1,0 +1,38 @@
+﻿@model Domain.ViewModels.SellerFormViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="text-center">
+    <h1 class="display-10">Edit seller</h1>
+</div>
+
+<form asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" asp-for="Seller.Name" class="form-control" id="exampleFormControlInput1" placeholder="Name">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" asp-for="Seller.Email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
+    </div>
+    <div class="mb-3">
+        <label for="birthdate" class="form-label">Birthdate</label>
+        <input type="datetime" asp-for="Seller.BirthDate" class="form-control" id="exampleFormControlInput1" placeholder="Birthdate">
+    </div>
+    <div class="mb-3">
+        <label for="basesalary" class="form-label">Base salary</label>
+        <input type="number" asp-for="Seller.BaseSalary" class="form-control" id="exampleFormControlInput1" placeholder="Base salary">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Seller.DepartmentId" class="control-label"></label>
+        <select asp-for="Seller.DepartmentId" asp-items="@(new SelectList(Model.Departments,"Id","Name"))" class="form-control"></select>
+    </div>
+    <div>
+        <hr />
+        <input class="btn btn-primary" type="submit" value="Confirm">
+        <a type="button" asp-action="Index" class="btn btn-success">Voltar</a>
+    </div>
+</form>
+
