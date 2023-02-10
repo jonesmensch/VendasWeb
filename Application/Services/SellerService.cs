@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Application.Services;
+﻿using Domain;
+using Domain.Interfaces.Application.Services;
 using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
 
@@ -13,12 +14,12 @@ namespace Application.Services
             _sellerRepository = sellerRepository;
         }
 
-        public Seller Create(Seller seller)
+        public OperationResult<Seller> Create(Seller seller)
         {
             return _sellerRepository.Create(seller);
         }
 
-        public bool Delete(int id)
+        public OperationResult Delete(int id)
         {
             return _sellerRepository.Delete(id);
         }
@@ -28,9 +29,14 @@ namespace Application.Services
             return _sellerRepository.FindAll();
         }
 
-        public Seller Update(Seller seller)
+        public Seller GetById(int id)
         {
-            return _sellerRepository.Update(seller);
+            return _sellerRepository.GetById(id);
+        }
+
+        public OperationResult<Seller> Edit(Seller seller)
+        {
+            return _sellerRepository.Edit(seller);
         }
     }
 }

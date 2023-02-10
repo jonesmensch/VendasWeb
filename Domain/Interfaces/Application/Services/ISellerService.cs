@@ -5,8 +5,9 @@ namespace Domain.Interfaces.Application.Services
     public interface ISellerService
     {
         public List<Seller> FindAll();
-        public Seller Create(Seller seller);
-        public Seller Update(Seller seller);
-        public bool Delete(int id);
+        public OperationResult<Seller> Create(Seller seller);
+        public OperationResult<Seller> Edit(Seller seller);
+        public OperationResult Delete(int id);
+        public Seller GetById(int id);
     }
 }

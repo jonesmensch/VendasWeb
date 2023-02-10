@@ -29,9 +29,19 @@ namespace VendasWeb.Controllers
             return View(sellerForm);
         }
 
-        public IActionResult Edit(Seller seller)
+        public IActionResult Edit(int id)
         {
-            return View();
+            if (id == null)
+                return NotFound();
+
+            var obj = _sellerService.GetById(id);
+            if (obj == null)
+                return NotFound();
+
+            var departments = _departmentService.FindAll();
+            var sellerForm = new SellerFormViewModel { Departments = departments , Seller = obj };
+
+            return View(sellerForm);
         }
 
         [HttpPost]
@@ -39,23 +49,21 @@ namespace VendasWeb.Controllers
         public IActionResult Create(Seller seller)
         {
             _sellerService.Create(seller);
-
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Seller seller)
+        public IActionResult Edit(int id, Seller seller)
         {
-            _sellerService.Update(seller);
-
+            if ()
+            _sellerService.Edit(seller);
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
             _sellerService.Delete(id);
-
             return RedirectToAction("Index");
         }
     }

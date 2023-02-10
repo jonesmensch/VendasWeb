@@ -25,7 +25,7 @@ namespace VendasWeb.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult Edit(Department department)
+        public IActionResult Edit(int id)
         {
             return View();
         }
@@ -46,9 +46,9 @@ namespace VendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Department department)
+        public IActionResult Edit(Department department)
         {
-            _departmentsService.Update(department);
+            _departmentsService.Edit(department);
 
             return RedirectToAction("Index");
         }

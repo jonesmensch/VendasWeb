@@ -41,7 +41,7 @@ namespace Infra.Repositories
             return department;
         }
 
-        public Department Update(Department department)
+        public Department Edit(Department department)
         {
             var edit = GetById(department.Id);
 

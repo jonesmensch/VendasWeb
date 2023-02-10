@@ -24,31 +24,38 @@ namespace Infra.Repositories
             return _context.sellers.FirstOrDefault(x => x.Id == id);
         }
 
-        public Seller Create(Seller seller)
+        public OperationResult<Seller> Create(Seller seller)
         {
-            _context.sellers.Add(seller);
-            _context.SaveChanges();
+            try
+            {
+                _context.sellers.Add(seller);
+                _context.SaveChanges();
 
-            return seller;
+                return OperationResult<Seller>.CreateSuccess(seller);
+            }
+            catch
+            {
+                return OperationResult<Seller>.CreateFail(seller, "An error has occurred, please try again.");
+            }
         }
 
-        public Seller Update(Seller seller)
+        public OperationResult<Seller> Edit(Seller seller)
         {
-            var sellers = GetById(seller.Id);
 
-            if (sellers == null)
-                throw new System.Exception("There was an error while trying to update!");
+            if (!_context.sellers.Any(x => x.Id == seller.Id))
+                return OperationResult<Seller>.CreateFail(seller, "An error has occurred, id not found.");
 
-            sellers.Name = seller.Name;
-            sellers.BirthDate = seller.BirthDate;
-            sellers.Email= seller.Email;
-            sellers.BaseSalary = seller.BaseSalary;
-            sellers.Department = seller.Department;
-            
-            _context.Update(sellers);
-            _context.SaveChanges();
+            try
+            {
+                _context.Update(seller);
+                _context.SaveChanges();
 
-            return sellers;
+                return OperationResult<Seller>.CreateSuccess(seller);
+            }
+            catch
+            {
+                return OperationResult<Seller>.CreateFail(seller, "There was an error while trying to update!");
+            }
         }
 
         public OperationResult Delete(int id)
