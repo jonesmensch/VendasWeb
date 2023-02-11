@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace VendasWeb.Data
 {
@@ -8,5 +9,9 @@ namespace VendasWeb.Data
             : base(options)
         {
         }
+
+        public DbSet<Department> departments { get; set; }
+        public DbSet<SalesRecord> salesRecords { get; set; }
+        public DbSet<Seller> sellers { get; set; }
     }
 }
