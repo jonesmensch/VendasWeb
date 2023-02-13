@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Application.Services;
+﻿using Domain;
+using Domain.Interfaces.Application.Services;
 using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
 
@@ -13,17 +14,17 @@ namespace Application.Services
             _departmentRepository = departmentRepository;
         }
 
-        public Department Create(Department department)
+        public OperationResult<Department> Create(Department department)
         {
             return _departmentRepository.Create(department);
         }
 
-        public bool Delete(int id)
+        public OperationResult Delete(int id)
         {
             return _departmentRepository.Delete(id);
         }
 
-        public Department Edit(Department department)
+        public OperationResult<Department> Edit(Department department)
         {
             return _departmentRepository.Edit(department);
         }
