@@ -62,7 +62,7 @@ namespace Infra.Repositories
         {
             try
             {
-                var seller = GetById(id);
+                Seller seller = GetById(id);
 
                 if (seller == null)
                     return OperationResult.CreateFail("An error has occurred, please try again!");

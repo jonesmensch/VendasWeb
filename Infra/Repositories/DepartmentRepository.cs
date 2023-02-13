@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Infra.Repositories;
+﻿using Domain;
+using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
 using VendasWeb.Data;
 
@@ -23,37 +24,62 @@ namespace Infra.Repositories
             return _context.departments.FirstOrDefault(x => x.Id == id);
         }
 
-        public bool Delete(int id)
+        public OperationResult Delete(int id)
         {
-            Department department = GetById(id);
+            try
+            {
+                Department department = GetById(id);
 
-            _context.Remove(department);
-            _context.SaveChanges();
+                if (department == null)
+                    return OperationResult.CreateFail("An error has occurred, please try again!");
 
-            return true;
+                _context.Remove(department);
+                _context.SaveChanges();
+
+                return OperationResult.CreateSuccess();
+            }
+            catch
+            {
+                return OperationResult.CreateFail("An error has occurred, please try again!");
+            }
+            
         }
 
-        public Department Create(Department department)
+        public OperationResult<Department> Create(Department department)
         {
-            _context.Add(department);
-            _context.SaveChanges();
+            try
+            {
+                _context.Add(department);
+                _context.SaveChanges();
 
-            return department;
+                return OperationResult<Department>.CreateSuccess(department);
+            }
+            catch
+            {
+                return OperationResult<Department>.CreateFail(department, "There was an unexpected error, please try again!");
+            }
         }
 
-        public Department Edit(Department department)
+        public OperationResult<Department> Edit(Department department)
         {
             var edit = GetById(department.Id);
 
-            if(edit == null)
-                throw new System.Exception("There was an error while trying to update!");
+            try
+            {
+                if (edit == null)
+                    throw new System.Exception("There was an error while trying to update!");
 
-            edit.Name = department.Name;
+                edit.Name = department.Name;
 
-            _context.departments.Update(edit);
-            _context.SaveChanges();
+                _context.departments.Update(edit);
+                _context.SaveChanges();
 
-            return edit;
+                return OperationResult<Department>.CreateSuccess(department);
+            }
+            catch
+            {
+                return OperationResult<Department>.CreateFail(department, "There was an error while trying to update!");
+            }
         }
 
     }

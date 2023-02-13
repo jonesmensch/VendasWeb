@@ -56,9 +56,11 @@ namespace VendasWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
-            if ()
-            _sellerService.Edit(seller);
-            return RedirectToAction("Index");
+            var result = _sellerService.Edit(seller);
+            if (result.Success)
+                return RedirectToAction("Index");
+
+            return RedirectToAction("Error");
         }
 
         public IActionResult Delete(int id)
