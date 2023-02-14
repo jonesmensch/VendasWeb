@@ -62,12 +62,12 @@ namespace Infra.Repositories
 
         public OperationResult<Department> Edit(Department department)
         {
-            var edit = GetById(department.Id);
-
             try
             {
-                if (edit == null)
-                    throw new System.Exception("There was an error while trying to update!");
+                var edit = GetById(department.Id);
+
+                if (department.Id != edit.Id)
+                    return OperationResult<Department>.CreateFail(department, "Id mismatch");
 
                 edit.Name = department.Name;
 

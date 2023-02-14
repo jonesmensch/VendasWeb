@@ -10,23 +10,23 @@
 
 <form asp-action="Create" method="post">
     <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
+        <label asp-for="Seller.Name" class="form-label">Name</label>
         <input type="text" asp-for="Seller.Name" class="form-control" id="exampleFormControlInput1" placeholder="Name">
     </div>
     <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
+        <label asp-for="Seller.Email" class="form-label">Email</label>
         <input type="email" asp-for="Seller.Email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
     </div>
     <div class="mb-3">
-        <label for="birthdate" class="form-label">Birthdate</label>
-        <input type="datetime" asp-for="Seller.BirthDate" class="form-control" id="exampleFormControlInput1" placeholder="Birthdate">
+        <label asp-for="Seller.BirthDate" class="form-label">Birthdate</label>
+        <input asp-for="Seller.BirthDate" class="form-control" id="exampleFormControlInput1" placeholder="Birthdate">
     </div>
     <div class="mb-3">
-        <label for="basesalary" class="form-label">Base salary</label>
-        <input type="number" asp-for="Seller.BaseSalary" class="form-control" id="exampleFormControlInput1" placeholder="Base salary">
+        <label asp-for="Seller.BaseSalary" class="form-label">Base salary</label>
+        <input asp-for="Seller.BaseSalary" class="form-control" id="exampleFormControlInput1" placeholder="Base salary">
     </div>
     <div class="mb-3">
-        <label asp-for="Seller.DepartmentId" class="control-label"></label>
+        <label asp-for="Seller.DepartmentId" class="control-label">Department</label>
         <select asp-for="Seller.DepartmentId" asp-items="@(new SelectList(Model.Departments,"Id","Name"))" class="form-control"></select>
     </div>
     <div>

@@ -2,6 +2,8 @@
 using Domain.Models;
 using Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using VendasWeb.Models;
 
 namespace VendasWeb.Controllers
 {
@@ -67,6 +69,10 @@ namespace VendasWeb.Controllers
         {
             _sellerService.Delete(id);
             return RedirectToAction("Index");
+        }
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

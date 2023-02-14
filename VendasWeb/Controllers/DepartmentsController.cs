@@ -1,6 +1,8 @@
 ﻿using Domain.Interfaces.Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using VendasWeb.Models;
 
 namespace VendasWeb.Controllers
 {
@@ -46,12 +48,18 @@ namespace VendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Department department)
+        public IActionResult Edit(Department department, int? id)
         {
+            if (id != department.Id)
+                throw new System.Exception("Id mismath");
+
             _departmentsService.Edit(department);
 
             return RedirectToAction("Index");
         }
-        
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }
