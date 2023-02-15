@@ -56,7 +56,7 @@ namespace Infra.Repositories
             }
             catch
             {
-                return OperationResult<Department>.CreateFail(department, "There was an unexpected error, please try again!");
+                return OperationResult<Department>.CreateFail("There was an unexpected error, please try again!");
             }
         }
 
@@ -67,7 +67,7 @@ namespace Infra.Repositories
                 var edit = GetById(department.Id);
 
                 if (department.Id != edit.Id)
-                    return OperationResult<Department>.CreateFail(department, "Id mismatch");
+                    return OperationResult<Department>.CreateFail("Id mismatch");
 
                 edit.Name = department.Name;
 
@@ -78,7 +78,7 @@ namespace Infra.Repositories
             }
             catch
             {
-                return OperationResult<Department>.CreateFail(department, "There was an error while trying to update!");
+                return OperationResult<Department>.CreateFail("There was an error while trying to update!");
             }
         }
 

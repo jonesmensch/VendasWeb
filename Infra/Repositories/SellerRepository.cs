@@ -35,15 +35,14 @@ namespace Infra.Repositories
             }
             catch
             {
-                return OperationResult<Seller>.CreateFail(seller, "An error has occurred, please try again.");
+                return OperationResult<Seller>.CreateFail("An error has occurred, please try again.");
             }
         }
 
         public OperationResult<Seller> Edit(Seller seller)
         {
-
             if (!_context.sellers.Any(x => x.Id == seller.Id))
-                return OperationResult<Seller>.CreateFail(seller, "Id not found.");
+                return OperationResult<Seller>.CreateFail("Id not found.");
 
             try
             {
@@ -54,7 +53,7 @@ namespace Infra.Repositories
             }
             catch
             {
-                return OperationResult<Seller>.CreateFail(seller, "There was an error while trying to update!");
+                return OperationResult<Seller>.CreateFail("There was an error while trying to update!");
             }
         }
 

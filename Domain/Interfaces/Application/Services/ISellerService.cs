@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.ViewModels;
 
 namespace Domain.Interfaces.Application.Services
 {
@@ -8,6 +9,6 @@ namespace Domain.Interfaces.Application.Services
         public OperationResult<Seller> Create(Seller seller);
         public OperationResult<Seller> Edit(Seller seller);
         public OperationResult Delete(int id);
-        public Seller GetById(int id);
+        public OperationResult<SellerFormViewModel> GetById(int id);
     }
 }
