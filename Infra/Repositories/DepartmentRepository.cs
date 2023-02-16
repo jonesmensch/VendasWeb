@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Infra.Repositories;
+﻿using Domain;
+using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
 using VendasWeb.Data;
 
@@ -23,38 +24,61 @@ namespace Infra.Repositories
             return _context.departments.FirstOrDefault(x => x.Id == id);
         }
 
-        public bool Delete(int id)
+        public OperationResult Delete(int id)
         {
             Department department = GetById(id);
 
-            _context.Remove(department);
-            _context.SaveChanges();
+            if (department == null)
+                return OperationResult.CreateFail("Seller not found!");
 
-            return true;
+            try 
+            {
+                _context.Remove(department);
+                _context.SaveChanges();
+
+                return OperationResult.CreateSuccess();
+            }
+            catch
+            {
+                return OperationResult.CreateFail("An error has occurred, please try again!");
+            }
         }
 
-        public Department Create(Department department)
+        public OperationResult<Department> Create(Department department)
         {
-            _context.Add(department);
-            _context.SaveChanges();
+            try
+            {
+                _context.Add(department);
+                _context.SaveChanges();
 
-            return department;
+                return OperationResult<Department>.CreateSuccess(department);
+            }
+            catch
+            {
+                return OperationResult<Department>.CreateFail("An error has occurred, please try again.");
+            }
         }
 
-        public Department Edit(Department department)
+        public OperationResult<Department> Edit(Department department)
         {
-            var edit = GetById(department.Id);
+            try
+            {
+                var edit = GetById(department.Id);
 
-            if(edit == null)
-                throw new System.Exception("There was an error while trying to update!");
+                if (department.Id != edit.Id)
+                    return OperationResult<Department>.CreateFail("Id mismatch");
 
-            edit.Name = department.Name;
+                edit.Name = department.Name;
 
-            _context.departments.Update(edit);
-            _context.SaveChanges();
+                _context.departments.Update(edit);
+                _context.SaveChanges();
 
-            return edit;
+                return OperationResult<Department>.CreateSuccess(department);
+            }
+            catch
+            {
+                return OperationResult<Department>.CreateFail("There was an error while trying to update!");
+            }
         }
-
     }
 }

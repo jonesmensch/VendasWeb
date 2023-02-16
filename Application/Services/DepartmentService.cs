@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Application.Services;
+﻿using Domain;
+using Domain.Interfaces.Application.Services;
 using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
 
@@ -13,24 +14,80 @@ namespace Application.Services
             _departmentRepository = departmentRepository;
         }
 
-        public Department Create(Department department)
+        public OperationResult<Department> Create(Department department)
         {
-            return _departmentRepository.Create(department);
+            try
+            {
+                var result = _departmentRepository.Create(department);
+                if (!result.Success)
+                    return OperationResult<Department>.CreateFail(result.Message);
+
+                return OperationResult<Department>.CreateSuccess(department);
+            }
+            catch
+            {
+                return OperationResult<Department>.CreateFail("There was an unexpected error, please try again");
+            }
         }
 
-        public bool Delete(int id)
+        public OperationResult Delete(int id)
         {
-            return _departmentRepository.Delete(id);
+            try
+            {
+                if (id == 0)
+                    return OperationResult.CreateFail("Id not found.");
+
+                var result = _departmentRepository.Delete(id);
+                if (!result.Success)
+                    return OperationResult.CreateFail("There was an unexpected error, please try again");
+
+                return OperationResult.CreateSuccess();
+            }
+            catch 
+            {
+                return OperationResult.CreateFail("There was an unexpected error, please try again");
+            }
+            
         }
 
-        public Department Edit(Department department)
+        public OperationResult<Department> Edit(Department department)
         {
-            return _departmentRepository.Edit(department);
+            try
+            {
+                var result = _departmentRepository.Edit(department);
+                if (result == null)
+                    return OperationResult<Department>.CreateFail("Department not found.");
+
+                return OperationResult<Department>.CreateSuccess(department);
+            }
+            catch
+            {
+                return OperationResult<Department>.CreateFail("There was an unexpected error, please try again");
+            }
         }
 
         public List<Department> FindAll()
         {
             return _departmentRepository.FindAll();
+        }
+
+        public OperationResult<Department> GetById(int id)
+        {
+            try
+            {
+                if (id == 0)
+                    return OperationResult<Department>.CreateFail("Id not found");
+
+                var result = _departmentRepository.GetById(id);
+                if (result == null)
+                    return OperationResult<Department>.CreateFail("Department not found.");
+
+                return OperationResult<Department>.CreateSuccess(result);
+            }
+            catch 
+            {
+                return OperationResult<Department>.CreateFail("There was an unexpected error, please try again");
+            }
         }
     }
 }

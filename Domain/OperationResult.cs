@@ -14,6 +14,6 @@
         public T? Model { get; set; }
 
         public static OperationResult<T> CreateSuccess(T model) => new() { Model = model, Success = true };
-        public static OperationResult<T> CreateFail(T model, string message) => new() { Model = model, Message = message, Success = false };
+        public static OperationResult<T> CreateFail(string message) => new() { Message = message, Success = false };
     }
 }

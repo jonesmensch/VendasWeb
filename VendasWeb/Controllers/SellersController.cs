@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using VendasWeb.Models;
 
 namespace VendasWeb.Controllers
 {
@@ -18,8 +19,7 @@ namespace VendasWeb.Controllers
 
         public IActionResult Index()
         {
-            var findAll = _sellerService.FindAll();
-            return View(findAll);
+            return View(_sellerService.FindAll());
         }
 
         public IActionResult Create()
@@ -31,40 +31,42 @@ namespace VendasWeb.Controllers
 
         public IActionResult Edit(int id)
         {
-            if (id == null)
-                return NotFound();
+            var result = _sellerService.GetById(id);
+            if (result.Success)
+                return View(result.Model);
 
-            var obj = _sellerService.GetById(id);
-            if (obj == null)
-                return NotFound();
-
-            var departments = _departmentService.FindAll();
-            var sellerForm = new SellerFormViewModel { Departments = departments , Seller = obj };
-
-            return View(sellerForm);
+            return View("Error", new ErrorViewModel(result.Message));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
-            _sellerService.Create(seller);
-            return RedirectToAction("Index");
+            var result = _sellerService.Create(seller);
+            if (result.Success)
+                return RedirectToAction("Index");
+
+            return View("Error", new ErrorViewModel(result.Message));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
-            if ()
-            _sellerService.Edit(seller);
-            return RedirectToAction("Index");
+            var result = _sellerService.Edit(seller);
+            if (result.Success)
+                return RedirectToAction("Index");
+
+            return View("Error", new ErrorViewModel(result.Message));
         }
 
         public IActionResult Delete(int id)
         {
-            _sellerService.Delete(id);
-            return RedirectToAction("Index");
+            var result = _sellerService.Delete(id);
+            if (result.Success)
+                return RedirectToAction("Index");
+
+            return View("Error", new ErrorViewModel(result.Message));
         }
     }
 }
