@@ -26,13 +26,13 @@ namespace Infra.Repositories
 
         public OperationResult Delete(int id)
         {
-            try
+            Department department = GetById(id);
+
+            if (department == null)
+                return OperationResult.CreateFail("Seller not found!");
+
+            try 
             {
-                Department department = GetById(id);
-
-                if (department == null)
-                    return OperationResult.CreateFail("An error has occurred, please try again!");
-
                 _context.Remove(department);
                 _context.SaveChanges();
 
@@ -42,7 +42,6 @@ namespace Infra.Repositories
             {
                 return OperationResult.CreateFail("An error has occurred, please try again!");
             }
-            
         }
 
         public OperationResult<Department> Create(Department department)
@@ -56,7 +55,7 @@ namespace Infra.Repositories
             }
             catch
             {
-                return OperationResult<Department>.CreateFail("There was an unexpected error, please try again!");
+                return OperationResult<Department>.CreateFail("An error has occurred, please try again.");
             }
         }
 
@@ -81,6 +80,5 @@ namespace Infra.Repositories
                 return OperationResult<Department>.CreateFail("There was an error while trying to update!");
             }
         }
-
     }
 }

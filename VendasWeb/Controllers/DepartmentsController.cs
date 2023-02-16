@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Application.Services;
+﻿using Domain;
+using Domain.Interfaces.Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -17,19 +18,24 @@ namespace VendasWeb.Controllers
 
         public IActionResult Index()
         {
-            var findAll = _departmentsService.FindAll();
-            return View(findAll);
+            return View(_departmentsService.FindAll());
         }
 
         public IActionResult Delete(int id)
         {
-            _departmentsService.Delete(id);
+            var result = _departmentsService.Delete(id);
+            if (result.Success)
+                return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
+            return View("Error", new ErrorViewModel(result.Message));
         }
         public IActionResult Edit(int id)
         {
-            return View();
+            var result = _departmentsService.GetById(id);
+            if (result.Success)
+                return View(result.Model);
+
+            return View("Error", new ErrorViewModel(result.Message));
         }
 
         public IActionResult Create()
@@ -41,9 +47,11 @@ namespace VendasWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Department department)
         {
-            _departmentsService.Create(department);
+            var result = _departmentsService.Create(department);
+            if (result.Success)
+                return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
+            return View("Error", new ErrorViewModel(result.Message));
         }
 
         [HttpPost]

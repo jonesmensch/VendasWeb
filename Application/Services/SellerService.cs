@@ -22,8 +22,8 @@ namespace Application.Services
             try
             {
                 var result = _sellerRepository.Create(seller);
-                if (result == null)
-                    return OperationResult<Seller>.CreateFail("Seller not found.");
+                if (!result.Success)
+                    return OperationResult<Seller>.CreateFail(result.Message);
 
                 return OperationResult<Seller>.CreateSuccess(seller);
             }
@@ -56,7 +56,14 @@ namespace Application.Services
 
         public List<Seller> FindAll()
         {
-            return _sellerRepository.FindAll();
+            try
+            {
+                return _sellerRepository.FindAll();
+            }
+            catch
+            {
+                return new List<Seller>();
+            }
         }
 
         public OperationResult<SellerFormViewModel> GetById(int id)
