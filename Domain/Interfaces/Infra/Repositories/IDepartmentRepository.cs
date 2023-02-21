@@ -4,10 +4,10 @@ namespace Domain.Interfaces.Infra.Repositories
 {
     public interface IDepartmentRepository
     {
-        public List<Department> FindAll();
-        public Department GetById(int id);
-        public OperationResult<Department> Create(Department department);
-        public OperationResult<Department> Edit(Department department);
-        public OperationResult Delete(int id);
+        public Task<List<Department>> FindAllAsync();
+        public Task<Department> GetByIdAsync(int id);
+        public Task<OperationResult<Department>> CreateAsync(Department department);
+        public Task<OperationResult<Department>> EditAsync(Department department);
+        public Task<OperationResult> DeleteAsync(int id);
     }
 }

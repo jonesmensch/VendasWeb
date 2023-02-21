@@ -5,10 +5,10 @@ namespace Domain.Interfaces.Application.Services
 {
     public interface ISellerService
     {
-        public List<Seller> FindAll();
-        public OperationResult<Seller> Create(Seller seller);
-        public OperationResult<Seller> Edit(Seller seller);
-        public OperationResult Delete(int id);
-        public OperationResult<SellerFormViewModel> GetById(int id);
+        public Task<List<Seller>> FindAllAsync();
+        public Task<OperationResult<Seller>> CreateAsync(Seller seller);
+        public Task<OperationResult<Seller>> EditAsync(Seller seller);
+        public Task<OperationResult> DeleteAsync(int id);
+        public Task<OperationResult<SellerFormViewModel>> GetByIdAsync(int id);
     }
 }

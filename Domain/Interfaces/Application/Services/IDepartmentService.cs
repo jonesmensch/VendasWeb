@@ -4,10 +4,10 @@ namespace Domain.Interfaces.Application.Services
 {
     public interface IDepartmentService
     {
-        public List<Department> FindAll();
-        public OperationResult<Department> Create(Department department);
-        public OperationResult<Department> Edit(Department department);
-        public OperationResult Delete(int id);
-        public OperationResult<Department> GetById(int id);
+        public Task<List<Department>> FindAllAsync();
+        public Task <OperationResult<Department>> CreateAsync(Department department);
+        public Task<OperationResult<Department>> EditAsync(Department department);
+        public Task<OperationResult> DeleteAsync(int id);
+        public Task<OperationResult<Department>> GetByIdAsync(int id);
     }
 }

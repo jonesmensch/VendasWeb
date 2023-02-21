@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using VendasWeb.Data;
 
 namespace Infra.Repositories
@@ -14,19 +15,19 @@ namespace Infra.Repositories
             _context = context;
         }
 
-        public List<Department> FindAll()
+        public async Task<List<Department>> FindAllAsync()
         {
-            return _context.departments.OrderBy(x => x.Name).ToList();
+            return await _context.departments.OrderBy(x => x.Name).ToListAsync();
         }
 
-        public Department GetById(int id)
+        public async Task<Department> GetByIdAsync(int id)
         {
-            return _context.departments.FirstOrDefault(x => x.Id == id);
+            return await _context.departments.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public OperationResult Delete(int id)
+        public async Task<OperationResult> DeleteAsync(int id)
         {
-            Department department = GetById(id);
+            Department department = await GetByIdAsync(id);
 
             if (department == null)
                 return OperationResult.CreateFail("Seller not found!");
@@ -34,7 +35,7 @@ namespace Infra.Repositories
             try 
             {
                 _context.Remove(department);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return OperationResult.CreateSuccess();
             }
@@ -44,12 +45,12 @@ namespace Infra.Repositories
             }
         }
 
-        public OperationResult<Department> Create(Department department)
+        public async Task<OperationResult<Department>> CreateAsync(Department department)
         {
             try
             {
-                _context.Add(department);
-                _context.SaveChanges();
+                await _context.AddAsync(department);
+                await _context.SaveChangesAsync();
 
                 return OperationResult<Department>.CreateSuccess(department);
             }
@@ -59,11 +60,11 @@ namespace Infra.Repositories
             }
         }
 
-        public OperationResult<Department> Edit(Department department)
+        public async Task<OperationResult<Department>> EditAsync(Department department)
         {
             try
             {
-                var edit = GetById(department.Id);
+                var edit = await GetByIdAsync(department.Id);
 
                 if (department.Id != edit.Id)
                     return OperationResult<Department>.CreateFail("Id mismatch");
@@ -71,7 +72,7 @@ namespace Infra.Repositories
                 edit.Name = department.Name;
 
                 _context.departments.Update(edit);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return OperationResult<Department>.CreateSuccess(department);
             }

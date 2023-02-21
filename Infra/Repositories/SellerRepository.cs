@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Interfaces.Infra.Repositories;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using VendasWeb.Data;
 
 namespace Infra.Repositories
@@ -14,22 +15,22 @@ namespace Infra.Repositories
             _context = context;
         }
 
-        public List<Seller> FindAll()
+        public async Task<List<Seller>> FindAllAsync()
         {
-            return _context.sellers.ToList();
+            return await _context.sellers.ToListAsync();
         }
 
-        public Seller GetById(int id)
+        public async Task<Seller> GetByIdAsync(int id)
         {
-            return _context.sellers.FirstOrDefault(x => x.Id == id);
+            return await _context.sellers.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public OperationResult<Seller> Create(Seller seller)
+        public async Task<OperationResult<Seller>> CreateAsync(Seller seller)
         {
             try
             {
-                _context.sellers.Add(seller);
-                _context.SaveChanges();
+                await _context.sellers.AddAsync(seller);
+                await _context.SaveChangesAsync();
 
                 return OperationResult<Seller>.CreateSuccess(seller);
             }
@@ -39,15 +40,16 @@ namespace Infra.Repositories
             }
         }
 
-        public OperationResult<Seller> Edit(Seller seller)
+        public async Task<OperationResult<Seller>> EditAsync(Seller seller)
         {
-            if (!_context.sellers.Any(x => x.Id == seller.Id))
+            var result = await _context.sellers.AnyAsync(x => x.Id == seller.Id);
+            if (!result)
                 return OperationResult<Seller>.CreateFail("Id not found.");
 
             try
             {
                 _context.Update(seller);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return OperationResult<Seller>.CreateSuccess(seller);
             }
@@ -57,9 +59,9 @@ namespace Infra.Repositories
             }
         }
 
-        public OperationResult Delete(int id)
+        public async Task<OperationResult> DeleteAsync(int id)
         {
-            Seller seller = GetById(id);
+            Seller seller = await GetByIdAsync(id);
 
             if (seller == null)
                 return OperationResult.CreateFail("Id not found");
@@ -67,7 +69,7 @@ namespace Infra.Repositories
             try
             {
                 _context.Remove(seller);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return OperationResult.CreateSuccess();
             }

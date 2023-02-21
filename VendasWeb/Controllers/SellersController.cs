@@ -17,21 +17,21 @@ namespace VendasWeb.Controllers
             _departmentService = departmentService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_sellerService.FindAll());
+            return View(await _sellerService.FindAllAsync());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departments = _departmentService.FindAll();
+            var departments = await _departmentService.FindAllAsync();
             var sellerForm = new SellerFormViewModel { Departments = departments };
             return View(sellerForm);
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var result = _sellerService.GetById(id);
+            var result = await _sellerService.GetByIdAsync(id);
             if (result.Success)
                 return View(result.Model);
 
@@ -40,11 +40,11 @@ namespace VendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller)
+        public async Task<IActionResult> Create(Seller seller)
         {
             if (ModelState.IsValid)
             {
-                var result = _sellerService.Create(seller);
+                var result = await _sellerService.CreateAsync(seller);
                 if (result.Success)
                     return RedirectToAction("Index");
 
@@ -55,11 +55,11 @@ namespace VendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Seller seller)
+        public async Task<IActionResult> Edit(int id, Seller seller)
         {
             if (ModelState.IsValid)
             {
-                var result = _sellerService.Edit(seller);
+                var result = await _sellerService.EditAsync(seller);
                 if (result.Success)
                     return RedirectToAction("Index");
 
@@ -68,9 +68,9 @@ namespace VendasWeb.Controllers
             return View("Edit", seller);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = _sellerService.Delete(id);
+            var result = await _sellerService.DeleteAsync(id);
             if (result.Success)
                 return RedirectToAction("Index");
 

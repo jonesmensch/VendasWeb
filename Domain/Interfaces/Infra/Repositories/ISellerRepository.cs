@@ -4,10 +4,10 @@ namespace Domain.Interfaces.Infra.Repositories
 {
     public interface ISellerRepository
     {
-        public List<Seller> FindAll();
-        public Seller GetById(int id);
-        public OperationResult<Seller> Create(Seller seller);
-        public OperationResult<Seller> Edit(Seller seller);
-        public OperationResult Delete(int id);
+        public Task<List<Seller>> FindAllAsync();
+        public Task<Seller> GetByIdAsync(int id);
+        public Task<OperationResult<Seller>> CreateAsync(Seller seller);
+        public Task<OperationResult<Seller>> EditAsync(Seller seller);
+        public Task<OperationResult> DeleteAsync(int id);
     }
 }

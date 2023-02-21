@@ -14,22 +14,22 @@ namespace VendasWeb.Controllers
             _departmentsService = departmentsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_departmentsService.FindAll());
+            return View(await _departmentsService.FindAllAsync());
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = _departmentsService.Delete(id);
+            var result = await _departmentsService.DeleteAsync(id);
             if (result.Success)
                 return RedirectToAction("Index");
 
             return View("Error", new ErrorViewModel(result.Message));
         }
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var result = _departmentsService.GetById(id);
+            var result = await _departmentsService.GetByIdAsync(id);
             if (result.Success)
                 return View(result.Model);
 
@@ -43,12 +43,12 @@ namespace VendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Department department)
+        public async Task<IActionResult> Create(Department department)
         {
             if (ModelState.IsValid)
             {
 
-                var result = _departmentsService.Create(department);
+                var result = await _departmentsService.CreateAsync(department);
                 if (result.Success)
                     return RedirectToAction("Index");
 
@@ -59,14 +59,14 @@ namespace VendasWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Department department, int? id)
+        public async Task<IActionResult> Edit(Department department, int? id)
         {
             if (ModelState.IsValid)
             {
                 if (id != department.Id)
                     throw new System.Exception("Id mismath");
 
-                _departmentsService.Edit(department);
+                await _departmentsService.EditAsync(department);
 
                 return RedirectToAction("Index");
             }

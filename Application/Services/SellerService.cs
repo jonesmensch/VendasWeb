@@ -17,11 +17,11 @@ namespace Application.Services
             _departmentRepository = departmentRepository;
         }
 
-        public OperationResult<Seller> Create(Seller seller)
+        public async Task<OperationResult<Seller>> CreateAsync(Seller seller)
         {
             try
             {
-                var result = _sellerRepository.Create(seller);
+                var result = await _sellerRepository.CreateAsync(seller);
                 if (!result.Success)
                     return OperationResult<Seller>.CreateFail(result.Message);
 
@@ -33,18 +33,18 @@ namespace Application.Services
             }
         }
 
-        public OperationResult Delete(int id)
+        public async Task<OperationResult> DeleteAsync(int id)
         {
             try
             {
                 if (id == 0)
                     return OperationResult.CreateFail("Id not found.");
 
-                var result = _sellerRepository.GetById(id);
+                var result = await _sellerRepository.GetByIdAsync(id);
                 if (result == null)
                     return OperationResult.CreateFail("Seller not found.");
 
-                _sellerRepository.Delete(id);
+                await _sellerRepository.DeleteAsync(id);
 
                 return OperationResult.CreateSuccess();
             }
@@ -54,11 +54,11 @@ namespace Application.Services
             }
         }
 
-        public List<Seller> FindAll()
+        public async Task<List<Seller>> FindAllAsync()
         {
             try
             {
-                return _sellerRepository.FindAll();
+                return await _sellerRepository.FindAllAsync();
             }
             catch
             {
@@ -66,18 +66,18 @@ namespace Application.Services
             }
         }
 
-        public OperationResult<SellerFormViewModel> GetById(int id)
+        public async Task<OperationResult<SellerFormViewModel>> GetByIdAsync(int id)
         {
             try
             {
                 if (id == 0)
                     return OperationResult<SellerFormViewModel>.CreateFail("Id not found");
 
-                var obj = _sellerRepository.GetById(id);
+                var obj = await _sellerRepository.GetByIdAsync(id);
                 if (obj == null)
                     return OperationResult<SellerFormViewModel>.CreateFail("Seller not found");
 
-                var departments = _departmentRepository.FindAll();
+                var departments = await _departmentRepository.FindAllAsync();
                 var sellerForm = new SellerFormViewModel { Departments = departments, Seller = obj };
 
                 return OperationResult<SellerFormViewModel>.CreateSuccess(sellerForm);
@@ -88,11 +88,11 @@ namespace Application.Services
             }
         }
 
-        public OperationResult<Seller> Edit(Seller seller)
+        public async Task<OperationResult<Seller>> EditAsync(Seller seller)
         {
             try
             {
-                var result = _sellerRepository.Edit(seller);
+                var result = await _sellerRepository.EditAsync(seller);
                 if (result == null)
                     return OperationResult<Seller>.CreateFail("Seller not found");
 
