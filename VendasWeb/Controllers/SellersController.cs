@@ -42,22 +42,30 @@ namespace VendasWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
-            var result = _sellerService.Create(seller);
-            if (result.Success)
-                return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var result = _sellerService.Create(seller);
+                if (result.Success)
+                    return RedirectToAction("Index");
 
-            return View("Error", new ErrorViewModel(result.Message));
+                return View("Error", new ErrorViewModel(result.Message));
+            }
+            return View("Create", seller);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
-            var result = _sellerService.Edit(seller);
-            if (result.Success)
-                return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var result = _sellerService.Edit(seller);
+                if (result.Success)
+                    return RedirectToAction("Index");
 
-            return View("Error", new ErrorViewModel(result.Message));
+                return View("Error", new ErrorViewModel(result.Message));
+            }
+            return View("Edit", seller);
         }
 
         public IActionResult Delete(int id)

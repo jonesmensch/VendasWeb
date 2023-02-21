@@ -12,18 +12,22 @@
     <div class="mb-3">
         <label asp-for="Seller.Name" class="form-label">Name</label>
         <input type="text" asp-for="Seller.Name" class="form-control" id="exampleFormControlInput1" placeholder="Name">
+        <span asp-validation-for="Seller.Name" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Seller.Email" class="form-label">Email</label>
         <input type="email" asp-for="Seller.Email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
+        <span asp-validation-for="Seller.Email" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Seller.BirthDate" class="form-label">Birthdate</label>
         <input asp-for="Seller.BirthDate" class="form-control" id="exampleFormControlInput1" placeholder="Birthdate">
+        <span asp-validation-for="Seller.BirthDate" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Seller.BaseSalary" class="form-label">Base salary</label>
         <input asp-for="Seller.BaseSalary" class="form-control" id="exampleFormControlInput1" placeholder="Base salary">
+        <span asp-validation-for="Seller.BaseSalary" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Seller.DepartmentId" class="control-label">Department</label>
@@ -35,3 +39,7 @@
         <a type="button" asp-action="Index" class="btn btn-success">Voltar</a>
     </div>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

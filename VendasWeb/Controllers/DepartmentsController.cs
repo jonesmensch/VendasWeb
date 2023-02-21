@@ -1,8 +1,6 @@
-﻿using Domain;
-using Domain.Interfaces.Application.Services;
+﻿using Domain.Interfaces.Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using VendasWeb.Models;
 
 namespace VendasWeb.Controllers
@@ -47,23 +45,32 @@ namespace VendasWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Department department)
         {
-            var result = _departmentsService.Create(department);
-            if (result.Success)
-                return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
 
-            return View("Error", new ErrorViewModel(result.Message));
+                var result = _departmentsService.Create(department);
+                if (result.Success)
+                    return RedirectToAction("Index");
+
+                return View("Error", new ErrorViewModel(result.Message));
+            }
+            return View("Create", department);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Department department, int? id)
         {
-            if (id != department.Id)
-                throw new System.Exception("Id mismath");
+            if (ModelState.IsValid)
+            {
+                if (id != department.Id)
+                    throw new System.Exception("Id mismath");
 
-            _departmentsService.Edit(department);
+                _departmentsService.Edit(department);
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            return View("Edit", department);
         }
     }
 }

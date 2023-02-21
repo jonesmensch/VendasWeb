@@ -14,6 +14,7 @@
             <div class="form-group">
                 <label asp-for="Name" class="control-label">New Department Name</label>
                 <input asp-for="Name" class="form-control" placeholder="Write the new department name"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <hr />
@@ -24,4 +25,10 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
